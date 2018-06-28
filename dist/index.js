@@ -21,10 +21,6 @@ exports.default = function (req, res, next) {
 
   if (notLocalHost() && schema !== 'https') {
     res.redirect(fullUrl);
-  } else if (notLocalHost() && /^www\./i.test(req.headers.host) && schema === 'https') {
-    res.redirect(fullUrl);
-  } else if (notLocalHost() && /\/$/.test(fullUrl) && fullUrl !== 'https://' + www + '/') {
-    res.redirect(fullUrl);
   }
 
   return next();
