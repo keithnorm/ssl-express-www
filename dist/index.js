@@ -1,5 +1,5 @@
 /*!
- * ssl-express-www v1.3.0
+ * ssl-express-www v3.0.0
  * git+https://github.com/brunomacedo/ssl-express-www.git
  * License MIT © Bruno Macedo
  */
@@ -15,20 +15,16 @@ exports.default = function (req, res, next) {
   var schema = (req.headers['x-forwarded-proto'] || '').toLowerCase();
   var www = req.headers.host.replace(/www\./gi, '');
   var fullUrl = 'https://' + www + local;
-  var removeSlash = function removeSlash(site) {
-    return site.replace(/\/$/, '');
-  };
-
   var notLocalHost = function notLocalHost() {
     return www.indexOf('localhost') < 0;
   };
 
   if (notLocalHost() && schema !== 'https') {
-    res.redirect(removeSlash(fullUrl));
+    res.redirect(fullUrl);
   } else if (notLocalHost() && /^www\./i.test(req.headers.host) && schema === 'https') {
-    res.redirect(removeSlash(fullUrl));
+    res.redirect(fullUrl);
   } else if (notLocalHost() && /\/$/.test(fullUrl) && fullUrl !== 'https://' + www + '/') {
-    res.redirect(removeSlash(fullUrl));
+    res.redirect(fullUrl);
   }
 
   return next();
